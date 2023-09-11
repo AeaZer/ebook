@@ -113,7 +113,6 @@ local lib = {
     sum = function (a, b) return a + b end,
     abs = function (a, b) return math.abs(a - b) end
 }
-
 -- print(lib.sum(1,2))
 -- print(lib.abs(1,2))
 
@@ -143,7 +142,77 @@ co = coroutine.create(function (a)
     end
 end)
 
+--[[
 coroutine.resume(co)
 print(coroutine.status(co))
 coroutine.resume(co)
 print(coroutine.status(co))
+
+-- 数据结构
+
+local a = {}
+for i = 1, 10, 2 do -- 第三个形参是 step 表示步长
+    a[i] = 0
+end
+print(#a) -- 结果输出 1 因为 # 至适合获取连续下标的 table
+print(a[2]) -- nil
+
+a = {}
+for i = 1, 10, 2 do 
+    table.insert(a, i)
+end
+print(#a) -- 输入结果是 5 
+
+
+a = {}
+local count = 0 
+for i = 1, 10, 1 do
+    a[i] = {}
+    for j = 1, 10, 1 do
+        count = count + 1
+        a[i][j] = count
+    end
+end
+print(a[2][2])
+]]
+
+--[[
+local l = {"a", "b"}
+for key, value in pairs(l) do
+    print(key) -- 此时的 key == index
+end
+
+-- 和下面的表达式是等价的
+
+for index, value in ipairs(l) do
+    print(index) 
+end
+]]
+
+-- 实现双向队列
+local list  = {}
+
+function list.new()
+    return {first = 0, last = -1}
+end
+
+function list.pushfirst(list, value)
+    local first = list.first-1
+    list.first = first
+    list[first] = value
+end
+
+-- 创建一个新列表
+local myList = list.new()
+
+-- 在列表开头添加元素
+list.pushfirst(myList, 10)
+list.pushfirst(myList, 20)
+list.pushfirst(myList, 30)
+
+-- 打印列表内容
+for i = myList.first, myList.last do
+    print(myList[i])
+end
+
+
